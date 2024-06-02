@@ -143,13 +143,22 @@ var oPopup=function(zielnode){
 		show(false);
 	}
 	
+	var onChangeNumber=function(e){
+		var data=this.data;
+		var val=this.value;
+		if(val<0)val=0;
+		var diff=val-data.start;
+		data.end+=diff;	//ende passend mit verschieben
+		data.start=val;
+	}
+	
 	var onChangeColor=function(e){
 		var data=this.data;
 		data.color=this.value;
 	}
 	
 	this.show=function(zeigen,data){
-		var popbox,h1,a,node,gruppe,input,label;
+		var popbox,h1,a,node,gruppe,input,label,br,label,p;
 		
 		if(zeigen){
 			basisnode.innerHTML="";//blocker
@@ -173,8 +182,32 @@ var oPopup=function(zielnode){
 			node=cE(gruppe,"div",undefined,"popboxcontent");
 			//node.innerHTML="...";
 			
+			if(data["start"]!=undefined){
+				p=cE(node,"p");
+				
+				label=cE(p,"span",undefined,"bedeutung");
+				label.innerHTML="Eventzeit:";
+				
+				input=cE(p,"input");
+				input.type="Number";
+				input.setAttribute('min',0);
+				input.setAttribute('step',100);
+				input.value=data.start;
+				input.data=data;
+				input.addEventListener('change',onChangeNumber);
+				
+				label=cE(p,"label");
+				label.innerHTML="Millisekunden";
+				
+			}
+			
 			if(data["color"]!=undefined){
-				input=cE(node,"input");
+				p=cE(node,"p");
+				
+				label=cE(p,"span",undefined,"bedeutung");
+				label.innerHTML="Farbe:";
+				
+				input=cE(p,"input");
 				input.type="color";
 				input.value=data.color;
 				input.data=data;
@@ -227,8 +260,7 @@ var oTimelineEd=function(zielnode){
 			,
 			{"name":"4er", "events":[]}
 			,
-			{"name":"1er", "events":[]}
-			
+			{"name":"1er", "events":[]}			
 		]
 		
 		,kanaele=spuren.length

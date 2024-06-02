@@ -127,5 +127,23 @@
 }
 #myPopupmenue input[type="color"] {
     min-width: 100px;
-    min-height: 100px;
+    min-height: 50px;
+}
+
+#myPopupmenue input{
+	margin-right:10px;
+}
+#myPopupmenue p{
+	margin:0;
+	margin-bottom:10px;
+	display: flex;
+    align-items: center;
+}
+#myPopupmenue input[type="number"] {
+    width: 66px;
+}
+#myPopupmenue .bedeutung{
+	margin-right:10px;
+	display:inline-block;
+	min-width:90px;
 }
