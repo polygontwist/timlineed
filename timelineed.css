@@ -1,0 +1,131 @@
+
+#timelineed{
+	min-height:200px;
+	width:100%;
+	height:auto;
+	padding:0;
+	position:relative;
+}
+#timelineed canvas{
+	position:absolute;
+	left:0;
+	top:0;
+}
+
+#myContextmenue{
+	position:absolute;
+	left:0;
+	top:0;
+	margin:0;
+	padding:0;
+	border-top:1px solid #000;
+	font-size:10pt;
+}
+#myContextmenue li{
+	display:block;
+	min-height:20px;
+	margin:0;
+	padding:0;
+}
+#myContextmenue li a,#myContextmenue li span{
+	display:block;
+	background-color:#ffffff;
+	border:1px solid #000;
+	border-top:0px solid transparent;
+	text-decoration:none;
+	color:#000;
+	padding:4px;
+}
+#myContextmenue li a:hover{
+	background-color:#ddd;
+}
+#myContextmenue li span{
+	background-color:#000;
+	color:#ffffff;
+}
+#myContextmenue a.delkey{
+	background-color:#ffe9e9;
+}
+#myContextmenue a.delkey:hover{
+	background-color:#ffbcbc;
+}
+
+#myPopupmenue{
+	position:absolute;
+	display:none;
+	left:0;
+	top:0;
+	margin:0;
+	padding:0;
+	width:100%;
+	height:100%;
+	background-color:rgba(0,0,0,0.5);
+}
+#myPopupmenue div{margin:0;padding:0;}
+#myPopupmenue .popbox{
+	padding:0;
+	margin:5px;
+	width:calc(100% - 10px);
+	height:calc(100% - 10px);
+	background-color: #ddd;	
+	display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+	border-radius:5px;
+}
+#myPopupmenue .popbox h1{
+	padding:0 5px;
+	min-height:35px;
+	margin:0;
+	background-color:#567e94;
+	color:#ffffff;
+	display: flex;
+    justify-content: space-between;
+	align-items: center;
+	border-radius:5px 5px 0 0;
+}
+#myPopupmenue .popbox h1 .closebutt{
+	display: flex;
+	background-color:#fff;
+	color:#000;
+	text-decoration:none;
+	border-radius:20px;
+	width:30px;
+	height:30px;
+	font-size:12px;
+	justify-content: center;
+    align-items: center;
+}
+
+#myPopupmenue .button {
+	min-width:55px;
+	color:#fff;
+	text-decoration:none;
+	border:2px solid #1FA3EC;
+	margin:5px;
+	-webkit-border-radius:9px;
+	border-radius:9px;
+	padding:10px;
+	display: inline-block;
+	text-align:center;
+	background-color: #1FA3EC;
+}
+#myPopupmenue .button:hover{
+	border-color:#0a5b87;
+	background-color:#118ed3;
+}
+#myPopupmenue .button:select{
+	border-color:#0a5b87;
+}
+#myPopupmenue .popboxbottom{
+	display: flex;
+    flex-direction: row-reverse;
+    flex-wrap: nowrap;
+}
+#myPopupmenue .popboxcontent{
+	padding:5px;
+}
+#myPopupmenue input[type="color"] {
+    min-width: 100px;
+    min-height: 100px;
+}
