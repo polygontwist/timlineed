@@ -137,10 +137,12 @@ var oContextmenue=function(zielnode){
 }
 
 var oPopup=function(zielnode){
-	var basisnode;
+	var basisnode,_this=this;
+	this.refresh=function(){}
 	
 	var onclickclose=function(e){
 		show(false);
+		_this.refresh();
 	}
 	
 	var onChangeNumber=function(e){
@@ -178,9 +180,8 @@ var oPopup=function(zielnode){
 			//console.log(data);
 			//.start .end .ishover .typ="led" .color="#000000"
 			
-			//optionen
+			//Optionen
 			node=cE(gruppe,"div",undefined,"popboxcontent");
-			//node.innerHTML="...";
 			
 			if(data["start"]!=undefined){
 				p=cE(node,"p");
@@ -283,6 +284,10 @@ var oTimelineEd=function(zielnode){
 		,istouchdevice=false
 		,timeatmouse=0			//ms
 		,mauszeile=-1			//-1=timeline/info, 0...=Spur
+		
+		,istickertimeout=false
+		,tickertimer
+		,keyover=undefined
 		
 		,fdunkel="#222222"
 		,fdunkelElemente="#e0e0e0"
@@ -400,12 +405,29 @@ var oTimelineEd=function(zielnode){
 		if(timeatmouse>-1){
 			if(mauszeile>-1){
 				//keys unter mause?
-				var key=getKeyandrefresh(mauszeile,timeatmouse);
+				var key;
+				if(keyover==undefined)
+					key=getKeyandrefresh(mauszeile,timeatmouse);
+				
+				if(key==undefined && keyover!=undefined)
+					key=keyover;
+				
 				if(key!=undefined){
 					cursor="pointer";//menü: del/setcolor/...
-					if(lastmousisdown){
-						showKeyMenue(mauszeile,key);
-						zeigecontext=true;
+					
+					if(istickertimeout){
+						cursor="ew-resize";//moving
+						lastmousisdown=false;
+						var diff=key.end-key.start;//keyweite
+						key.start=timeatmouse;
+						key.end=timeatmouse+diff;
+						keyover=key;
+					}
+					else{
+						if(lastmousisdown && keyover==undefined){
+							showKeyMenue(mauszeile,key);
+							zeigecontext=true;
+						}
 					}
 				}
 				else{
@@ -426,6 +448,20 @@ var oTimelineEd=function(zielnode){
 		maincanvas.style.cursor=cursor;
 	}
 	
+	var startticker=function(){
+		clearticker();
+		tickertimer=setTimeout(tickertimeout,500);//nach 500ms umschalten auf bewegen
+	}
+	var tickertimeout=function(){
+		clearticker();
+		istickertimeout=true;
+		
+		drawTL(true);
+	}
+	var clearticker=function(){
+		istickertimeout=false;
+		if(tickertimer!=undefined)clearTimeout(tickertimer);
+	}
 	
 	var onclickMenueoption=function(data){
 		//console.log(">>",data);
@@ -475,6 +511,9 @@ var oTimelineEd=function(zielnode){
 			,typ:"led"
 			,color:fcolor
 			});
+		//sortbytime	
+		liste.sort(function(a, b) {return a.start - b.start;});
+		console.log(spuren[zeile].events)
 	}
 	
 	var refreshAllKeys=function(){
@@ -549,8 +588,7 @@ var oTimelineEd=function(zielnode){
 			for(i=0;i<keylist.length;i++){
 				key=keylist[i];
 				if(key.start>=timelinestartpos && key.start<timelineendpos){
-					//innerhalb sichbaren bereiches?
-					//draw
+					//wenn innerhalb sichbaren bereiches, zeichnen:
 					
 					xx=timeToPX(key.start);
 					yy=y*spurheight+timelineheight +timelineheight*0.1;
@@ -558,7 +596,6 @@ var oTimelineEd=function(zielnode){
 					hh=(y+1)*spurheight+timelineheight -timelineheight*0.1  -yy;
 					
 					kexb=timeToPX(key.end)-xx;
-					//if(kexb>b)kexb=b;
 					
 					/*cline(mcctx,
 							xx,yy, 
@@ -661,16 +698,39 @@ var oTimelineEd=function(zielnode){
 		var y = e.clientY - rect.top;
 		mausXpos=x;
 		mausYpos=y;
+		if(!mousisdown)clearticker();
 		if(!istouchdevice)drawTL(true);//nicht bei touchdevice
 	}
-	var onMousedown=function(e){mousisdown=true;}
+	var onMousedown=function(e){
+		mousisdown=true;
+		startticker();
+		}
 	var onMouseup=function(e){
 		if(mousisdown)lastmousisdown=true;
 		mousisdown=false;
+		clearticker();
 		drawTL(true);
+		keyover=undefined;		
 		}
 	var touchstart=function(e){
 		istouchdevice=true;
+		mousisdown=true;
+		startticker();
+	}
+	var touchmove=function(e){
+		var rect = this.getBoundingClientRect();
+		var x = e.touches[0].clientX - rect.left; 
+		var y = e.touches[0].clientY - rect.top;
+		mausXpos=x;
+		mausYpos=y;
+		drawTL(true);//nicht bei touchdevice
+	}
+	var touchend=function(e){console.log("TE");
+		mousisdown=false;
+		clearticker();
+		keyover=undefined;
+		deselectallKey();
+		drawTLChannels();
 	}
 	
 	var ini=function(){
@@ -681,11 +741,17 @@ var oTimelineEd=function(zielnode){
 		
 		contextmenue=new oContextmenue(zielnode);
 		popup=new oPopup(zielnode);
+		popup.refresh=function(){
+			deselectallKey();
+			drawTLChannels();
+		}
 		
 		maincanvas.addEventListener('mousemove'	,onMousemove);//auch bei touch
 		maincanvas.addEventListener('mousedown'	,onMousedown);
 		maincanvas.addEventListener('mouseup'	,onMouseup);
 		maincanvas.addEventListener('touchstart',touchstart,{passive:false});
+		maincanvas.addEventListener('touchmove',touchmove,{passive:true});
+		maincanvas.addEventListener('touchend',touchend,{passive:true});
 		
 		
 		refreshAll();
