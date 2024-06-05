@@ -129,6 +129,12 @@
     min-width: 100px;
     min-height: 50px;
 }
+#myPopupmenue .farbbutton{
+	display:inline-block;
+	width:20px;height:20px;
+	border-radius:3px;
+	margin:5px;
+}
 
 #myPopupmenue input{
 	margin-right:10px;
