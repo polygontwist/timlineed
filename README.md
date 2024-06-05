@@ -3,9 +3,11 @@ Zeitleisteneditor mit 5 Kanälen für LED-Animation (ESP8266 WS2812b) für mein 
 
 Erstellt in Javascript mit HTML und CSS.
  
- ![screenshot_1](https://github.com/polygontwist/timlineed/blob/main/preview01.png)
+![screenshot_1](https://github.com/polygontwist/timlineed/blob/main/preview01.png)
 
 Es können einzelne Keypunkte gesetzt werden und deren Farbe eingestellt werden.
+
+Klickt man länger auf die Keypunkte, können diese verschoben werden.
 
 Mit dem Mausrad kann durch die Zeitleiste gescrollt werden.
 
