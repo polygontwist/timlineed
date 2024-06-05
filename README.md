@@ -7,7 +7,7 @@ Erstellt in Javascript mit HTML und CSS.
 
 Es können einzelne Keypunkte gesetzt werden und deren Farbe eingestellt werden.
 
-Klickt man länger auf die Keypunkte, können diese verschoben werden.
+Klickt man länger auf einen Keypunkt, kann dieser verschoben werden.
 
 Mit dem Mausrad kann durch die Zeitleiste gescrollt werden.
 
