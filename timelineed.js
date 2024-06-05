@@ -287,11 +287,10 @@ var oPopup=function(zielnode){
 	
 	var show=function(zeigen){
 		isopen=zeigen;
-		if(zeigen===true){
-			basisnode.style.display="block";
-		}
+		if(zeigen===true)
+			addClass(basisnode,"an");
 		else
-			basisnode.style.display="none";
+			subClass(basisnode,"an");
 	}
 	
 	

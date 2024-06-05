@@ -61,11 +61,16 @@
 	height:100%;
 	background-color:rgba(0,0,0,0.5);
 }
+#myPopupmenue.an{
+	display:flex;
+	justify-content: center;
+}
 #myPopupmenue div{margin:0;padding:0;}
 #myPopupmenue .popbox{
 	padding:0;
 	margin:5px;
 	width:calc(100% - 10px);
+	max-width: 640px;
 	height:calc(100% - 10px);
 	background-color: #ddd;	
 	display: flex;
