@@ -265,7 +265,7 @@ var oPopup=function(zielnode){
 				label=cE(p,"span",undefined,"bedeutung");
 				label.innerHTML="Farbenmerkeliste:";
 				
-				p=cE(node,"p");
+				p=cE(node,"p",undefined,"farbenliste");
 				nodemerkliste=p;
 				for(i=0;i<farbenmerker.length;i++){
 					addMerkfarbeButt(farbenmerker[i],input);
