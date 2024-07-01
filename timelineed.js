@@ -144,6 +144,7 @@ var oContextmenue=function(zielnode){
 
 var oPopup=function(zielnode){
 	var basisnode,_this=this, nodemerkliste;
+	var setlive=true;
 	this.refresh=function(){}
 	
 	var farbenmerker=[];
@@ -160,14 +161,16 @@ var oPopup=function(zielnode){
 		var diff=val-data.start;
 		data.end+=diff;	//ende passend mit verschieben
 		data.start=val;
+		if(setlive)_this.refresh();
 	}
 	
 	var onChangeColor=function(e){
 		var data=this.data;
 		data.color=this.value;
+		if(setlive)_this.refresh();//gleich setzen
 	}
 	
-	var onclickmerkefarbe=function(e){
+	var onClickmerkefarbeinListe=function(e){
 		var farbe=this.inputfarbe.value;
 		
 		var i,isneu=true;
@@ -194,7 +197,7 @@ var oPopup=function(zielnode){
 	var onclickmerkfarbe=function(e){
 		this.inputfarbe.value=this.farbe;
 		this.inputfarbe.data.color=this.farbe;
-		
+		if(setlive)_this.refresh();
 		e.preventDefault();
 	}
 	
@@ -251,14 +254,18 @@ var oPopup=function(zielnode){
 				input.type="color";
 				input.value=data.color;
 				input.data=data;
-				input.addEventListener('change',onChangeColor);
 				
-				//add
+				if(setlive)
+					input.addEventListener('input',onChangeColor);
+				else
+					input.addEventListener('change',onChangeColor);
+				
+				//add to list
 				a=cE(p,"a",undefined,"button");
 				a.href="#";
 				a.innerHTML="In Liste merken";
 				a.inputfarbe=input;
-				a.addEventListener('click',onclickmerkefarbe);
+				a.addEventListener('click',onClickmerkefarbeinListe);
 			
 				//farbenmerker
 				p=cE(node,"p");
