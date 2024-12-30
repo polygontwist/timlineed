@@ -14,12 +14,12 @@ Es kann mit dem Mausrad durch die Zeitleiste gescrollt werden. Oder per drag&dro
 Die Dateien mit der Endung .ani enthalten Beispielanimationen (binäres Format).
 
 Der Aufbau ist so:
-0x53 ("S") Beginn einer RGB-Sequenz
-folgend von der Anzahl (max 255)
-folgend Anzahl*3 mit je ein byte für r,g,b 
-0x54 ("T") Wie lange in Millisekunden gewartet werden soll
-folgend zwei bytes (HI*256+LOW=Millisekunden)
-...
-0x45 ("E") Schließt die Datei ab
+- 0x53 ("S") Beginn einer Pixel-Sequenz
+- folgend von der Anzahl der Pixel (max 255) (ein Pixel enthält 3 Bytes je r,g,b) 
+- folgend für jedes Pixel je ein Byte für r,g,b 
+- 0x54 ("T") Wie lange in Millisekunden gewartet werden soll
+- folgend zwei bytes (HI*256+LOW=Millisekunden)
+- ...
+- 0x45 ("E") Schließt die Datei ab
 
 Dies ist Teil eines größeren Projektes (https://www.a-d-k.de/20121216_210832-Lautlos_im_Weltraum_Dewey.htm).
